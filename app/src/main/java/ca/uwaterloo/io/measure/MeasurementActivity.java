@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ca.uwaterloo.io.R;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -12,22 +11,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.util.Random;
-
 public class MeasurementActivity extends AppCompatActivity {
 
-    Button connectBtn, startBtn, stopBtn;
+    Button connectBtn, uploadBtn;
     TextView textBox, spo2Text, bpmText;
 
     CMS50EW cms50EW;
@@ -38,11 +38,10 @@ public class MeasurementActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     Runnable mUpdateClockTask = new Runnable() {
         public void run() {
-            //String text = "Spo2: " + cms50EW.spo2 + " BPM: " + cms50EW.bpm;
             spo2Text.setText(Integer.toString(cms50EW.spo2));
             bpmText.setText(Integer.toString(cms50EW.bpm));
             addEntry(cms50EW.data);
-            mHandler.postDelayed(mUpdateClockTask, 1000);
+            mHandler.postDelayed(mUpdateClockTask, 500);
         }
     };
 
@@ -55,6 +54,7 @@ public class MeasurementActivity extends AppCompatActivity {
 
         textBox = findViewById(R.id.textBox);
         connectBtn = findViewById(R.id.connect);
+        uploadBtn = findViewById(R.id.upload);
         spo2Text = findViewById(R.id.spo2);
         bpmText = findViewById(R.id.bpm);
 
@@ -68,12 +68,13 @@ public class MeasurementActivity extends AppCompatActivity {
 
                 switch (state) {
                     case 0:
-                        btn.setText("Start");
                         if (cms50EW.connect()) {
                             state = 1;
+                            btn.setText("Start");
                         }
                         break;
                     case 1:
+                        mChart.getLineData().clearValues();
                         cms50EW.start();
                         mHandler.removeCallbacks(mUpdateClockTask);
                         mHandler.postDelayed(mUpdateClockTask, 100);
@@ -84,6 +85,7 @@ public class MeasurementActivity extends AppCompatActivity {
                     default:
                         cms50EW.stop();
                         mHandler.removeCallbacks(mUpdateClockTask);
+
                         btn.setText("Start");
                         state = 1;
                         break;
@@ -92,6 +94,34 @@ public class MeasurementActivity extends AppCompatActivity {
                 btn.setEnabled(true);
             }
 
+        });
+
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadBtn.setEnabled(false);
+
+                if (cms50EW.bpm == 0 || cms50EW.spo2 == 0) {
+                    return;
+                }
+                RequestQueue queue = Volley.newRequestQueue(MeasurementActivity.this);
+                String url ="http://www.google.com";
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                queue.add(stringRequest);
+
+                uploadBtn.setEnabled(true);
+            }
         });
 
         initializeGraph();
@@ -142,6 +172,7 @@ public class MeasurementActivity extends AppCompatActivity {
         mChart.setData(data);
     }
 
+    int count = 0;
     private void addEntry(int i) {
         LineData data = mChart.getData();
 
@@ -153,6 +184,11 @@ public class MeasurementActivity extends AppCompatActivity {
                 set.setDrawValues(false);
                 data.addDataSet(set);
             }
+
+//            if (set.getEntryCount() > 5) {
+//                set.removeFirst();
+//                mChart.notifyDataSetChanged();
+//            }
 
             data.addEntry(new Entry(set.getEntryCount(), i), 0);
 

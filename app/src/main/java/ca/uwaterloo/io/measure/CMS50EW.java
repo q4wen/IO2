@@ -75,6 +75,11 @@ public class CMS50EW {
     public boolean connect() {
         HashMap<String, UsbDevice> deviceList = manager.getDeviceList();
         Iterator<String> it = deviceList.keySet().iterator();
+
+        if (!it.hasNext()) {
+            return false;
+        }
+
         String deviceName = it.next();
         UsbDevice device = deviceList.get(deviceName);
         manager.requestPermission(device, permissionIntent);
@@ -193,7 +198,7 @@ public class CMS50EW {
 
                 @Override
                 public void onNewData(final byte[] rawData) {
-                    if (rawData.length > 6) {
+                    if (rawData.length > 6 && rawData[0] == 1) {
 
                         String byte3 = String.format("%8s", Integer.toBinaryString(rawData[3] & 0x7F)).replace(' ', '0');
                         data = Integer.parseInt(byte3, 2);

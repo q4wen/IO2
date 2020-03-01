@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import ca.uwaterloo.io.measure.MeasurementActivity;
+import ca.uwaterloo.io.model.User;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -84,6 +85,8 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        User.setUsername("abc");
+                        User.setAuthentication("abcd");
                         getSharedPreferences(STUB, MODE_PRIVATE)
                                 .edit()
                                 .putString(USER_NAME, username.getText().toString())

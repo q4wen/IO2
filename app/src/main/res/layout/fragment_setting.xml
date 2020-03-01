@@ -78,7 +78,7 @@
                 android:stretchColumns="0" >
 
                 <TableRow
-                    android:id="@+id/more_page_row4"
+                    android:id="@+id/profile"
                     android:layout_width="fill_parent"
                     android:layout_marginLeft="2.0dip"
                     android:layout_marginRight="2.0dip"
@@ -99,27 +99,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/more_page_row5"
-                    android:layout_width="fill_parent"
-                    android:layout_marginLeft="2.0dip"
-                    android:layout_marginRight="2.0dip"
-                    android:paddingBottom="16.0dip"
-                    android:paddingTop="16.0dip" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:drawablePadding="10.0dip"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:paddingLeft="17.0dip"
-                        android:text="Feedback"
-                        android:textColor="#ff333333"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/more_page_row7"
+                    android:id="@+id/about"
                     android:layout_width="fill_parent"
                     android:layout_marginLeft="2.0dip"
                     android:layout_marginRight="2.0dip"
@@ -134,6 +114,26 @@
                         android:includeFontPadding="false"
                         android:paddingLeft="17.0dip"
                         android:text="About"
+                        android:textColor="#ff333333"
+                        android:textSize="20sp" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/logout"
+                    android:layout_width="fill_parent"
+                    android:layout_marginLeft="2.0dip"
+                    android:layout_marginRight="2.0dip"
+                    android:paddingBottom="16.0dip"
+                    android:paddingTop="16.0dip" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:drawablePadding="10.0dip"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:paddingLeft="17.0dip"
+                        android:text="Log out"
                         android:textColor="#ff333333"
                         android:textSize="20sp" />
                 </TableRow>
