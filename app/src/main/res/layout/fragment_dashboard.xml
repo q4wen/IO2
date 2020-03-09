@@ -24,17 +24,24 @@
                 android:layout_gravity="center_horizontal"/>
 
             <TextView
+                android:id="@+id/graph_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Logo"
+                android:text="BPM history"
                 android:textSize="18dp"
                 android:layout_gravity="center_horizontal"/>
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
+<!--            <androidx.viewpager.widget.ViewPager-->
+<!--                android:id="@+id/view_pager"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_margin="20dp"-->
+<!--                android:layout_height="300dp"/>-->
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
                 android:layout_margin="20dp"
-                android:layout_height="300dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
 
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
@@ -75,6 +82,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
                 <LinearLayout
+                    android:id="@+id/spo2Btn"
                     android:layout_height="80dp"
                     android:layout_width="80dp"
                     android:orientation="vertical"
@@ -100,6 +108,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/bpmBtn"
                     android:layout_height="80dp"
                     android:layout_width="80dp"
                     android:orientation="vertical"
@@ -110,6 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
+                        android:id="@+id/bpm"
                         android:textColor="#FFd300"
                         android:textSize="30dp"
                         android:text="--"
@@ -117,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
-                        android:text="mmHg"
+                        android:text=""
                         android:layout_gravity="end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
